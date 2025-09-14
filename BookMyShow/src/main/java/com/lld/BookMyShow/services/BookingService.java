@@ -1,17 +1,25 @@
 package com.lld.BookMyShow.services;
 
+import com.lld.BookMyShow.enums.BookingStatus;
+import com.lld.BookMyShow.enums.ShowSeatStatus;
 import com.lld.BookMyShow.exceptions.ShowNotFoundException;
+import com.lld.BookMyShow.exceptions.ShowSeatNotFoundException;
 import com.lld.BookMyShow.exceptions.UserNotFoundException;
 import com.lld.BookMyShow.models.Booking;
 import com.lld.BookMyShow.models.Show;
+import com.lld.BookMyShow.models.ShowSeat;
 import com.lld.BookMyShow.models.User;
+import com.lld.BookMyShow.repositories.BookingRepository;
 import com.lld.BookMyShow.repositories.ShowRepository;
 import com.lld.BookMyShow.repositories.ShowSeatRepository;
 import com.lld.BookMyShow.repositories.UserRepository;
+import org.hibernate.query.criteria.JpaRoot;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,18 +28,24 @@ public class BookingService {
     private UserRepository userRepository;
     private ShowRepository showRepository;
     private ShowSeatRepository showSeatRepository;
+    private PriceCalculator priceCalculator;
+    private BookingRepository bookingRepository;
 
     public BookingService(
             UserRepository userRepository,
             ShowRepository showRepository,
-            ShowSeatRepository showSeatRepository) {
+            ShowSeatRepository showSeatRepository,
+            PriceCalculator priceCalculator,
+            BookingRepository bookingRepository) {
         this.userRepository = userRepository;
         this.showRepository = showRepository;
         this.showSeatRepository = showSeatRepository;
+        this.priceCalculator = priceCalculator;
+        this.bookingRepository = bookingRepository;
     }
     @Transactional(isolation = Isolation.SERIALIZABLE)
     public Booking createBooking(Long userId, Long showId, List<Long> showSeatIds)
-            throws UserNotFoundException, ShowNotFoundException {
+            throws UserNotFoundException, ShowNotFoundException, ShowSeatNotFoundException {
         /*
         1. Get the user with the given user id
         2. Get the show with given show id
@@ -58,11 +72,35 @@ public class BookingService {
         }
         Show show = optionalShow.get();
 
+        List<ShowSeat> showSeats = this.showSeatRepository.findAllById(showSeatIds);
+        if (showSeats.size() == 0) {
+            throw new ShowSeatNotFoundException("Seats doesn't exist for the given ids");
+        }
+        for (ShowSeat showSeat: showSeats) {
+            if (!showSeat.getShowSeatStatus().equals(ShowSeatStatus.AVAILABLE)) {
+                throw new ShowSeatNotFoundException("Requested seats are not available for the given show");
+            }
+        }
+
+        for (ShowSeat showSeat: showSeats) {
+            showSeat.setShowSeatStatus(ShowSeatStatus.BLOCKED);
+        }
+
+        // Here we're using saveAll() method for Update and not Insert
+        this.showSeatRepository.saveAll(showSeats);
+
         Booking booking = new Booking();
         booking.setShow(show);
         booking.setUser(user);
-//        booking.setShowSeatList();
+        booking.setShowSeatList(showSeats);
+        booking.setBookingStatus(BookingStatus.PENDING);
+        booking.setBookingNumber("12766437");
+        booking.setCreatedAt(new Date());
+        booking.setPayments(new ArrayList<>());
 
+        booking.setAmount(this.priceCalculator.calculatePrice());
+
+        booking = this.bookingRepository.save(booking);
         return booking;
     }
 }
