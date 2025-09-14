@@ -1,7 +1,7 @@
 package com.lld.BookMyShow.models;
 
-import com.lld.BookMyShow.models.constants.Feature;
-import com.lld.BookMyShow.models.constants.Language;
+import com.lld.BookMyShow.enums.Feature;
+import com.lld.BookMyShow.enums.Language;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;

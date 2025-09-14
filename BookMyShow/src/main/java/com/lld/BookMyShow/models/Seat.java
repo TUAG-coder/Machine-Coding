@@ -1,7 +1,6 @@
 package com.lld.BookMyShow.models;
 
-import com.lld.BookMyShow.models.constants.SeatType;
-import jakarta.persistence.ElementCollection;
+import com.lld.BookMyShow.enums.SeatType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;

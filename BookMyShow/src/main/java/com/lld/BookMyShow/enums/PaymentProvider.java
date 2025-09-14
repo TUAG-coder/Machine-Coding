@@ -1,4 +1,4 @@
-package com.lld.BookMyShow.models.constants;
+package com.lld.BookMyShow.enums;
 
 public enum PaymentProvider {
     RAZORPAY,

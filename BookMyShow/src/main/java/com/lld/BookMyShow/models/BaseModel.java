@@ -6,9 +6,10 @@ import jakarta.persistence.Id;
 import jakarta.persistence.MappedSuperclass;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import java.util.Date;
-import java.util.HashMap;
 
 @Getter
 @Setter
@@ -17,7 +18,9 @@ public class BaseModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) // Auto increment
     private Long id;
+    @CreatedDate
     private Date createdAt;
+    @LastModifiedDate
     private Date lastModifiedAt;
 }
 

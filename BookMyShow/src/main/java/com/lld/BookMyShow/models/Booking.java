@@ -1,6 +1,6 @@
 package com.lld.BookMyShow.models;
 
-import com.lld.BookMyShow.models.constants.BookingStatus;
+import com.lld.BookMyShow.enums.BookingStatus;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;

@@ -1,8 +1,8 @@
 package com.lld.BookMyShow.models;
 
-import com.lld.BookMyShow.models.constants.PaymentMode;
-import com.lld.BookMyShow.models.constants.PaymentProvider;
-import com.lld.BookMyShow.models.constants.PaymentStatus;
+import com.lld.BookMyShow.enums.PaymentMode;
+import com.lld.BookMyShow.enums.PaymentProvider;
+import com.lld.BookMyShow.enums.PaymentStatus;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
