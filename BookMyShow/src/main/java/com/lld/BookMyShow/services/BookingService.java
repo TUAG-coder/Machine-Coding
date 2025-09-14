@@ -98,7 +98,7 @@ public class BookingService {
         booking.setCreatedAt(new Date());
         booking.setPayments(new ArrayList<>());
 
-        booking.setAmount(this.priceCalculator.calculatePrice());
+        booking.setAmount(this.priceCalculator.calculatePrice(show, showSeats));
 
         booking = this.bookingRepository.save(booking);
         return booking;

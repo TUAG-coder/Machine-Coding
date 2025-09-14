@@ -19,6 +19,7 @@ public class BookingController {
             Booking booking =
                     this.bookingService.createBooking(
                             requestDto.getUserId(), requestDto.getShowId(), requestDto.getShowSeatId());
+            responseDto.setBookingId(booking.getId());
             responseDto.setResponseStatus(ResponseStatus.SUCCESS);
         } catch (Exception exception) {
             responseDto.setResponseStatus(ResponseStatus.ERROR);
