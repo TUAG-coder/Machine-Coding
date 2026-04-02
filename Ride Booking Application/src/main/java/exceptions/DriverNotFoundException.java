@@ -1,0 +1,8 @@
+package exceptions;
+
+public class DriverNotFoundException extends Exception{
+    private String message;
+    public DriverNotFoundException(String message) {
+        this.message = message;
+    }
+}
