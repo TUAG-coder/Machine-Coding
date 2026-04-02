@@ -1,7 +1,7 @@
 package com.lld.Zomato.exceptions;
 
-public class UserNotFoundException extends Exception{
-    public UserNotFoundException(String message) {
+public class RestaurantNotFoundException extends Exception{
+    public RestaurantNotFoundException(String message) {
         super(message);
     }
 }

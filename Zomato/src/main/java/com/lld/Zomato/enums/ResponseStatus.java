@@ -1,2 +1,6 @@
-package com.lld.Zomato.enums;public enum ResponseStatus {
+package com.lld.Zomato.enums;
+
+public enum ResponseStatus {
+    SUCCESS,
+    ERROR
 }

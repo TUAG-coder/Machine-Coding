@@ -1,2 +1,7 @@
-package com.lld.Zomato.repositories;public class UserRepository {
+package com.lld.Zomato.repositories;
+
+import org.springframework.stereotype.Repository;
+
+@Repository
+public class UserRepository {
 }
